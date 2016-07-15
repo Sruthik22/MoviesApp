@@ -49,11 +49,11 @@ public class MovieFragment extends Fragment {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
 
-            movieAdapter = new MovieAdapter(getActivity(), Arrays.asList(androidFlavors));
+            movieAdapter = new MovieAdapter(getActivity(), Arrays.asList(//This is where I need the List));
 
             // Get a reference to the ListView, and attach this adapter to it.
-            GridView gridView = (GridView) rootView.findViewById(R.id.flavors_grid);
-            gridView.setAdapter(mMovieAdapter);
+            GridView gridView = (GridView) rootView.findViewById(R.id.movies_grid);
+            gridView.setAdapter(movieAdapter);
 
             return rootView;
         }
