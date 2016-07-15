@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
@@ -21,7 +24,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MovieFragment extends Fragment {
@@ -37,11 +39,6 @@ public class MovieFragment extends Fragment {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-
-            movieAdapter = new MovieAdapter(getActivity(), Arrays.asList(//This is where I need the List));
-
-            // Get a reference to the ListView, and attach this adapter to it.
-            GridView gridView = (GridView) rootView.findViewById(R.id.movies_grid);
             return rootView;
         }
 
@@ -95,17 +92,13 @@ public class MovieFragment extends Fragment {
             String forecastJsonStr = null;
 
             try {
-                // Construct the URL for the OpenWeatherMap query
-                // Possible parameters are avaiable at OWM's forecast API page, at
-                // http://openweathermap.org/API#forecast
                 final String FORECAST_BASE_URL =
                         "https://api.themoviedb.org/3/movie/";
-                final String QUERY_PARAM = "popular?";
-                final String APPID_PARAM = "api_key=";
+                final String APPID_PARAM = "api_key";
 
                 Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
-                        .appendQueryParameter(QUERY_PARAM, params[0])
-                        .appendQueryParameter(APPID_PARAM, "08cad5f78a9c82e7729dc841d27b45f2")
+                        .appendPath(params[0])
+                        .appendQueryParameter(APPID_PARAM, "=08cad5f78a9c82e7729dc841d27b45f2")
                         .build();
 
                 URL url = new URL(builtUri.toString());
@@ -178,8 +171,32 @@ public class MovieFragment extends Fragment {
             // Initialize the adapter with the results
             movieAdapter = new MovieAdapter(getActivity(), androidMovies);
             // Set the adapter for the GridView
+            GridView gridView = (GridView) getView().findViewById(R.id.movies_grid);
             gridView.setAdapter(movieAdapter);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu (Menu menu, MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.menu_main, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_rating) {
+            //Change the params to have rating
+            return true;
+        }
+
+        else if (id == R.id.action_popular) {
+            //Change the params to have popular
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 

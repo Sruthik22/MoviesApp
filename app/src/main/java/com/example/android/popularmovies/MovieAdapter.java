@@ -25,6 +25,8 @@ public class MovieAdapter extends ArrayAdapter<AndroidMovies> {
         this.androidMoviesFinal = androidM;
         this.context = context;
     }
+
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //AndroidMovies androidMovies = getItem(position);
@@ -38,6 +40,4 @@ public class MovieAdapter extends ArrayAdapter<AndroidMovies> {
 
         return convertView;
     }
-
-
 }
