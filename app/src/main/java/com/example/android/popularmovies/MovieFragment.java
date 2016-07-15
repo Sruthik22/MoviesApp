@@ -45,6 +45,29 @@ public class MovieFragment extends Fragment {
         weatherTask.execute(type);
     }
 
+    @Override
+    public void onCreateOptionsMenu (Menu menu, MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.menu_main, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_rating) {
+            callFetchWeatherTask("popular?");
+            return true;
+        }
+
+        else if (id == R.id.action_popular) {
+            callFetchWeatherTask("top_rated?");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
@@ -81,7 +104,6 @@ public class MovieFragment extends Fragment {
         @Override
         protected String[] doInBackground(String... params) {
 
-            // If there's no zip code, there's nothing to look up.  Verify size of params.
             if (params.length == 0) {
                 return null;
             }
@@ -95,8 +117,7 @@ public class MovieFragment extends Fragment {
             String forecastJsonStr = null;
 
             try {
-                final String FORECAST_BASE_URL =
-                        "https://api.themoviedb.org/3/movie/";
+                final String FORECAST_BASE_URL = "https://api.themoviedb.org/3/movie/";
                 final String APPID_PARAM = "api_key";
 
                 Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
@@ -177,29 +198,6 @@ public class MovieFragment extends Fragment {
             GridView gridView = (GridView) getView().findViewById(R.id.movies_grid);
             gridView.setAdapter(movieAdapter);
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu (Menu menu, MenuInflater menuInflater) {
-        menuInflater.inflate(R.menu.menu_main, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_rating) {
-            //Change the params to have rating
-            return true;
-        }
-
-        else if (id == R.id.action_popular) {
-            //Change the params to have popular
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
 
