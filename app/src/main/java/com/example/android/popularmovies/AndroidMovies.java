@@ -1,9 +1,9 @@
 package com.example.android.popularmovies;
 
 public class AndroidMovies {
-    int image; // drawable reference id
+    String image;
 
-    public AndroidMovies(int image)
+    public AndroidMovies(String image)
     {
         this.image = image;
     }
