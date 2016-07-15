@@ -30,17 +30,20 @@ public class MovieFragment extends Fragment {
 
         private MovieAdapter movieAdapter;
 
-        public MovieFragment() {
-
-        }
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
+            callFetchWeatherTask("popular?");
+
             return rootView;
         }
+
+    public void callFetchWeatherTask(String type) {
+        FetchWeatherTask weatherTask = new FetchWeatherTask();
+        weatherTask.execute(type);
+    }
 
     public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
