@@ -34,6 +34,7 @@ public class MovieFragment extends Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            setHasOptionsMenu(true);
 
             callFetchWeatherTask("top_rated");
 
@@ -122,7 +123,7 @@ public class MovieFragment extends Fragment {
 
                 Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                         .appendPath(params[0])
-                        .appendQueryParameter(APPID_PARAM, "08cad5f78a9c82e7729dc841d27b45f2")
+                        .appendQueryParameter(APPID_PARAM, "please inset API here")
                         .build();
 
                 URL url = new URL(builtUri.toString());
