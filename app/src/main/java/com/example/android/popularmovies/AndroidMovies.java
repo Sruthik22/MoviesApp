@@ -1,6 +1,6 @@
 package com.example.android.popularmovies;
 
-public class AndroidMovies {
+public class AndroidMovies implements Parcelable{
     String image;
     String releaseDate;
     String title;
