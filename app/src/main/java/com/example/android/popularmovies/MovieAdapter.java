@@ -13,7 +13,6 @@ import java.util.List;
 
 public class MovieAdapter extends ArrayAdapter<AndroidMovies> {
     private static final String LOG_TAG = MovieAdapter.class.getSimpleName();
-    private static Activity context;
 
     public MovieAdapter(Activity context, List<AndroidMovies> androidMovies) {
         super(context, 0, androidMovies);
@@ -31,7 +30,7 @@ public class MovieAdapter extends ArrayAdapter<AndroidMovies> {
 
 
         ImageView iconView = (ImageView) convertView.findViewById(R.id.androidMovieImage);
-        Picasso.with(context).load("http://image.tmdb.org/t/p/w185//" + androidMovies.image).into(iconView);
+        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/w185//" + androidMovies.image).into(iconView);
 
         return convertView;
     }

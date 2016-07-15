@@ -35,7 +35,7 @@ public class MovieFragment extends Fragment {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-            callFetchWeatherTask("popular?");
+            callFetchWeatherTask("top_rated");
 
             return rootView;
         }
@@ -57,12 +57,12 @@ public class MovieFragment extends Fragment {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_rating) {
-            callFetchWeatherTask("popular?");
+            callFetchWeatherTask("top_rated");
             return true;
         }
 
         else if (id == R.id.action_popular) {
-            callFetchWeatherTask("top_rated?");
+            callFetchWeatherTask("popular");
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -122,10 +122,12 @@ public class MovieFragment extends Fragment {
 
                 Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                         .appendPath(params[0])
-                        .appendQueryParameter(APPID_PARAM, "=08cad5f78a9c82e7729dc841d27b45f2")
+                        .appendQueryParameter(APPID_PARAM, "08cad5f78a9c82e7729dc841d27b45f2")
                         .build();
 
                 URL url = new URL(builtUri.toString());
+
+                Log.e(LOG_TAG, url.toString());
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
