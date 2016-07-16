@@ -35,19 +35,17 @@ public class AndroidMovies implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
-}
+    }
 
-    public void setRelease_date(String release_date) {
+    public void setReleaseDate(String release_date) {
         this.release_date = release_date;
     }
 
-    public void setVote_average(String vote_average) {
+    public void setVoteAverage(String vote_average) {
         this.vote_average = vote_average;
     }
 
-    public void setPlot_synopsis(String plot_synopsis) {
+    public void setPlotSynopsis(String plot_synopsis) {
         this.plot_synopsis = plot_synopsis;
     }
-
-
 }

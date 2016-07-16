@@ -86,24 +86,27 @@ public class MovieFragment extends Fragment {
         private AndroidMovies[] getMovieDataFromJson(String json)
                 throws JSONException {
 
+            List<AndroidMovies> ListOfMovies = new ArrayList<AndroidMovies>();
+
+
             JSONObject jsonObject = new JSONObject(json);
             JSONArray results = jsonObject.getJSONArray("results");
 
-            List<AndroidMovies> movies = new ArrayList<AndroidMovies>();
-
             for (int i=0; i < results.length(); i++) {
                 AndroidMovies movie = new AndroidMovies();
+                movie.setImage(jsonObject.getString("poster_path"));
                 movie.setTitle(jsonObject.getString("original_title"));
-                movie.setRelease_date(jsonObject.getString("release_date"));
-                movie.setPlot_synopsis(jsonObject.getString("overview"));
-                movie.setVote_average(jsonObject.getString("vote_average"));
-                movie.setImage(jsonObject.getString("vote_average"));
-                movies.add(movie);
+                movie.setReleaseDate(jsonObject.getString("release_date"));
+                movie.setVoteAverage(jsonObject.getString("vote_average"));
+                movie.setPlotSynopsis(jsonObject.getString("overview"));
+                ListOfMovies.add(movie);
             }
 
-            AndroidMovies[] movieArray = movies.toArray(new AndroidMovies[0]);
+            AndroidMovies[] movieArray = ListOfMovies.toArray(new AndroidMovies[0]);
             return movieArray;
+
         }
+
         @Override
         protected AndroidMovies[] doInBackground(String... params) {
 
