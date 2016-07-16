@@ -94,11 +94,12 @@ public class MovieFragment extends Fragment {
 
             for (int i=0; i < results.length(); i++) {
                 AndroidMovies movie = new AndroidMovies();
-                movie.setImage(jsonObject.getString("poster_path"));
-                movie.setTitle(jsonObject.getString("original_title"));
-                movie.setReleaseDate(jsonObject.getString("release_date"));
-                movie.setVoteAverage(jsonObject.getString("vote_average"));
-                movie.setPlotSynopsis(jsonObject.getString("overview"));
+                JSONObject result = results.getJSONObject(i);
+                movie.setImage(result.getString("poster_path"));
+                movie.setTitle(result.getString("original_title"));
+                movie.setReleaseDate(result.getString("release_date"));
+                movie.setVoteAverage(result.getString("vote_average"));
+                movie.setPlotSynopsis(result.getString("overview"));
                 ListOfMovies.add(movie);
             }
 
@@ -206,7 +207,7 @@ public class MovieFragment extends Fragment {
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                     AndroidMovies myMovie = movieAdapter.getItem(position);
                     Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                    intent.putExtra("myMovie", myMovie);
+                    intent.putExtra("MyMovie", myMovie);
                     startActivity(intent);
                 }
             });
