@@ -82,28 +82,29 @@ public class MovieFragment extends Fragment {
          */
         private String[] getMovieDataFromJson(String json)
                 throws JSONException {
+                        
+            List<androidMovies> ListOfMovies = new ArrayList<androidMovies>();
+
 
             JSONObject jsonObject = new JSONObject(json);
             JSONArray movies = jsonObject.getJSONArray("results");
-
-            List<String> images = new ArrayList<String>();
-
-            for (int i=0; i<movies.length(); i++) {
-                JSONObject movie = movies.getJSONObject(i);
-                String poster_path = movie.getString("poster_path");
-                images.add(poster_path);
+            
+            for (int i=0; i < movies.length(); i++) {
+                Movie movie = new Movie();
+                movie.setImage(json.getString("poster_path");
+                movie.setTitle(json.getString("original_title");
+                movie.setReleaseDate(json.getString("release_date");
+                movie.setVoteAverage(json.getString("vote_average");
+                movie.setOverview(json.getString("overview");
+                ListOfMovies.add(movie);
             }
 
-            for (String s : images) {
-                Log.v(LOG_TAG, "Movie entry: " + s);
-            }
-
-            String[] image = images.toArray(new String[0]);
-            return image;
+            androidMovies[] movieArray = ListOfMovies.toArray(new androidMovies[0]);
+            return movieArray;
 
         }
         @Override
-        protected String[] doInBackground(String... params) {
+        protected String[] doInBackground(androidMovies... params) {
 
             if (params.length == 0) {
                 return null;
@@ -190,13 +191,8 @@ public class MovieFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String[] strings) {
-            ArrayList<AndroidMovies> androidMovies = new ArrayList<AndroidMovies>();
-            for (String s: strings) {
-                // Add the movie posters to the androidMovies ArrayList
-                androidMovies.add(new AndroidMovies(s));
-            }
             // Initialize the adapter with the results
-            movieAdapter = new MovieAdapter(getActivity(), androidMovies);
+            movieAdapter = new MovieAdapter(getActivity(), strings);
             // Set the adapter for the GridView
             GridView gridView = (GridView) getView().findViewById(R.id.movies_grid);
             gridView.setAdapter(movieAdapter);
