@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Android Flavors</string>
+    <string name="app_name">Popular Movies</string>
     <string name="action_rating">Highly Rated Movies</string>
     <string name="action_popular">Most Popular Movies</string>
+    <string name="releaseDate">Release Date: </string>
+    <string name="voteAverage">Vote Average: </string>
 </resources>

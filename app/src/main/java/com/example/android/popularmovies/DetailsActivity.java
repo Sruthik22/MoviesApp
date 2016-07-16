@@ -20,7 +20,7 @@ public class DetailsActivity extends AppCompatActivity {
         TextView releaseDate = (TextView) findViewById(R.id.releaseData);
         TextView voteAverage = (TextView) findViewById(R.id.voteAverage);
 
-        AndroidMovies movie = (AndroidMovies) getIntent().getSerializableExtra("MyClass");
+        AndroidMovies movie = (AndroidMovies) getIntent().getSerializableExtra("MyMovie");
 
         title.setText(movie.getTitle());
         Picasso.with(getBaseContext()).load("http://image.tmdb.org/t/p/w185//" + movie.getImage()).into(moviePoster);
