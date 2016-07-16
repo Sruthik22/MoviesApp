@@ -194,7 +194,9 @@ public class MovieFragment extends Fragment {
         @Override
         protected void onPostExecute(AndroidMovies[] strings) {
             // Initialize the adapter with the results
-            movieAdapter = new MovieAdapter(getActivity(), Arrays.asList(strings));
+            List<AndroidMovies> androidMoviesList = Arrays.asList(strings);
+
+            movieAdapter = new MovieAdapter(getActivity(), androidMoviesList);
             // Set the adapter for the GridView
             GridView gridView = (GridView) getView().findViewById(R.id.movies_grid);
             gridView.setAdapter(movieAdapter);
