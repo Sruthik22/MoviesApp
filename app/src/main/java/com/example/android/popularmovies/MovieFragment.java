@@ -1,5 +1,6 @@
 package com.example.android.popularmovies;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import org.json.JSONArray;
@@ -24,6 +26,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MovieFragment extends Fragment {
@@ -69,7 +72,7 @@ public class MovieFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
+    public class FetchWeatherTask extends AsyncTask<String, Void, AndroidMovies[]> {
 
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
@@ -80,30 +83,29 @@ public class MovieFragment extends Fragment {
          * Fortunately parsing is easy:  constructor takes the JSON string and converts it
          * into an Object hierarchy for us.
          */
-        private String[] getMovieDataFromJson(String json)
+        private AndroidMovies[] getMovieDataFromJson(String json)
                 throws JSONException {
 
             JSONObject jsonObject = new JSONObject(json);
-            JSONArray movies = jsonObject.getJSONArray("results");
+            JSONArray results = jsonObject.getJSONArray("results");
 
-            List<String> images = new ArrayList<String>();
+            List<AndroidMovies> movies = new ArrayList<AndroidMovies>();
 
-            for (int i=0; i<movies.length(); i++) {
-                JSONObject movie = movies.getJSONObject(i);
-                String poster_path = movie.getString("poster_path");
-                images.add(poster_path);
+            for (int i=0; i < results.length(); i++) {
+                AndroidMovies movie = new AndroidMovies();
+                movie.setTitle(jsonObject.getString("original_title"));
+                movie.setRelease_date(jsonObject.getString("release_date"));
+                movie.setPlot_synopsis(jsonObject.getString("overview"));
+                movie.setVote_average(jsonObject.getString("vote_average"));
+                movie.setImage(jsonObject.getString("vote_average"));
+                movies.add(movie);
             }
 
-            for (String s : images) {
-                Log.v(LOG_TAG, "Movie entry: " + s);
-            }
-
-            String[] image = images.toArray(new String[0]);
-            return image;
-
+            AndroidMovies[] movieArray = movies.toArray(new AndroidMovies[0]);
+            return movieArray;
         }
         @Override
-        protected String[] doInBackground(String... params) {
+        protected AndroidMovies[] doInBackground(String... params) {
 
             if (params.length == 0) {
                 return null;
@@ -123,12 +125,10 @@ public class MovieFragment extends Fragment {
 
                 Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                         .appendPath(params[0])
-                        .appendQueryParameter(APPID_PARAM, "please inset API here")
+                        .appendQueryParameter(APPID_PARAM, "08cad5f78a9c82e7729dc841d27b45f2")
                         .build();
 
                 URL url = new URL(builtUri.toString());
-
-                Log.e(LOG_TAG, url.toString());
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -189,17 +189,22 @@ public class MovieFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(String[] strings) {
-            ArrayList<AndroidMovies> androidMovies = new ArrayList<AndroidMovies>();
-            for (String s: strings) {
-                // Add the movie posters to the androidMovies ArrayList
-                androidMovies.add(new AndroidMovies(s));
-            }
+        protected void onPostExecute(AndroidMovies[] strings) {
             // Initialize the adapter with the results
-            movieAdapter = new MovieAdapter(getActivity(), androidMovies);
+            movieAdapter = new MovieAdapter(getActivity(), Arrays.asList(strings));
             // Set the adapter for the GridView
             GridView gridView = (GridView) getView().findViewById(R.id.movies_grid);
             gridView.setAdapter(movieAdapter);
+
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                    AndroidMovies myMovie = movieAdapter.getItem(position);
+                    Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                    intent.putExtra("myMovie", myMovie);
+                    startActivity(intent);
+                }
+            });
         }
     }
 }

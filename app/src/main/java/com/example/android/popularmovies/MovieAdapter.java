@@ -30,7 +30,7 @@ public class MovieAdapter extends ArrayAdapter<AndroidMovies> {
 
 
         ImageView iconView = (ImageView) convertView.findViewById(R.id.androidMovieImage);
-        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/w185//" + androidMovies.image).into(iconView);
+        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/w185//" + androidMovies.getImage()).into(iconView);
 
         return convertView;
     }
